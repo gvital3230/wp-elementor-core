@@ -1,0 +1,29 @@
+services:
+  db:
+    image: mysql:8
+    command: '--mysql-native-password=ON'
+    volumes:
+      - db_data:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=somewordpress
+      - MYSQL_DATABASE=wordpress
+      - MYSQL_USER=wordpress
+      - MYSQL_PASSWORD=wordpress
+  wordpress:
+    image: wordpress:6.5.3-php8.2-apache
+    ports:
+      - "80:80"
+    volumes:
+      - .:/var/www/html
+    restart: always
+    hostname: wordpress
+    environment:
+      - WORDPRESS_DB_HOST=db
+      - WORDPRESS_DB_USER=wordpress
+      - WORDPRESS_DB_PASSWORD=wordpress
+      - WORDPRESS_DB_NAME=wordpress
+      - WORDPRESS_DEBUG=true
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+volumes:
+  db_data:
