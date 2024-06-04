@@ -2,3 +2,6 @@ wp-content/uploads/*
 
 .DS_Store
 
+.git
+
+dockerfile
